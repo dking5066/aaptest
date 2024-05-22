@@ -1,0 +1,16 @@
+---
+- name: url checking
+  hosts: all
+  sources:
+    - ansible.eda.http:
+        url: "http://pri1jmp01p"
+        method: GET
+        interval: 60  # Check the URL every 60 seconds
+
+  rules:
+    - name: Monitor URL status
+        condition: event.url_status == "down"
+        actions:
+        - run_playbook:
+           name: apache_restart.yml
+
